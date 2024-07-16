@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang='en' class="dark">
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>{{site_config['SITE_NAME']}} - {% block title %}{% endblock%}</title>
+        <script src='https://cdn.tailwindcss.com'></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+        {% block css %}
+        {% endblock %}
+    </head>
+    <body class="dark:bg-slate-900 bg-blue-50">
+        <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-60 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+            <div class="h-full overflow-y-auto bg-gray-50 border-r dark:border-0 dark:bg-slate-800">
+                <!-- SIDEBAR CONTENT -->
+                <div class="flex p-3">
+                    <img src="{{ url_for('core.static', filename='images/avatars/' + user_data[5] ) }}" class="h-10 w-10 object-cover rounded-sm">
+                    <div class="block mx-4">
+                        <h6 class="text-base dark:text-slate-100">{{user_data[2]}} {{user_data[3]}}</h6>
+                        <p class="text-xs text-slate-400">
+                            {% if user_data[1] == 'admin' %}
+                                Administrator
+                            {% elif user_data[1] == 'user' %}
+                                User
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="my-4">
+
+                    {% for extension_name in extension_tabs %}
+                        
+                        <div class="w-full px-3">
+                            <p class="text-sm font-medium text-slate-500">{{extension_name}}</p>
+                            <ul class="my-3">
+                                {% for tabs in extension_tabs[extension_name] %}
+                                    <li class="border-l border-slate-300 text-slate-500 hover:text-slate-900 hover:border-slate-600 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:border-slate-100 px-3 text-base text-sm"><a href="{{ url_for(tabs['url_for']) }}">{{tabs['tab_name']}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                    
+
+                    <div class="w-full px-3">
+                        <p class="text-sm font-medium text-slate-500">Core</p>
+                        <ul class="my-3">
+                            <li class="border-l border-slate-300 text-slate-500 hover:text-slate-900 hover:border-slate-600 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:border-slate-100 px-3 text-base text-sm"><a href="{{ url_for('core.extensions') }}">Extensions</a></li>
+                            <li class="border-l border-slate-300 text-slate-500 hover:text-slate-900 hover:border-slate-600 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:border-slate-100 px-3 text-base text-sm"><a href="{{ url_for('core.settings') }}">Settings</a></li>
+                            <li class="border-l border-slate-300 text-slate-500 hover:text-slate-900 hover:border-slate-600 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:border-slate-100 px-3 text-base text-sm"><a href="{{ url_for('core.logout') }}">Logout</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+                
+                
+                
+            </div>
+        </aside>
+        
+    
+        
+        <div class="sm:ml-64 text-slate-100">
+            <div class="p-4 dark:bg-slate-800 bg-gray-50 flex items-center justify-between sticky top-0 sm:hidden border-b">
+                <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="p-2 text-sm sm:hidden border border-slate-600 rounded">
+                    <span class="sr-only">Open sidebar</span>
+                    <svg class="w-6 h-6 text-black" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="p-3 text-black dark:bg-slate-900 dark:text-slate-100 bg-blue-50 text-slate-900">
+                <!-- CONTENT AREA -->
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script> 
+        {% block javascript %}
+        {% endblock %}
+    </body>
+</html>

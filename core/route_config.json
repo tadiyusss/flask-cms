@@ -1,0 +1,9 @@
+{
+    "enabled": true,
+    "name": "flask-cms-dashboard",
+    "url_prefix": "/",
+    "blueprint": "core",
+    "template_folder": "templates",
+    "static_folder": "static",
+    "static_url_path": "/static/core"
+}

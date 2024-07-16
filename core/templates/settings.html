@@ -1,0 +1,185 @@
+{% extends "core_base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+<div class="border p-3 bg-gray-50 dark:border-0 dark:bg-slate-800 shadow rounded">
+    
+
+    <div class="my-3">
+        <h2 class="text-2xl border-b-2 border-gray-300 dark:border-slate-600 pb-3">Avatar</h2>
+        <div class="my-8">
+            <form method="post" enctype="multipart/form-data">
+                {{ avatar_form.hidden_tag() }}
+                <div class="grid grid-cols-3 gap-2 mb-4">
+                    <div class="sm:col-span-1 col-span-3 sm:text-slate-100 sm:font-normal font-medium text-slate-500 col-span-1 ">
+                        <h5 class="dark:text-slate-100 text-slate-900">Change Avatar</h5>
+                    </div>
+                    <div class="sm:col-span-1 col-span-3">
+                        <label for="avatar_upload_input">
+                            <img src="{{ url_for('.static', filename='images/avatars/' + user_data[5] ) }}" id="profile_image_preview" class="h-28 w-28 cursor-pointer object-cover rounded-sm">
+                        </label>
+                        {{ avatar_form.avatar_upload(class="hidden", id="avatar_upload_input") }}
+                        <small class="text-slate-500">Only PNG, JPG, SVG, and GIF are allowed as avatar.</small>
+                        {% with message = get_flashed_messages(with_categories=true) %}
+                            {% for category, message in message %}
+                                {% if message and category == "avatar_success" %}
+                                    <p class="mt-3 text-green-500">{{ message }}</p>
+                                {% endif %}
+                                {% if message and category == "avatar_error" %}
+                                    <p class="mt-3 text-red-500">{{ message }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                    
+                </div>
+                {{ avatar_form.submit(class="py-1 px-2 border cursor-pointer ease-in duration-200 bg-gray-100 text-gray-800 hover:bg-gray-200 dark:text-slate-100 dark:bg-slate-800 dark:border-slate-700 dark:hover:text-slate-100 dark:hover:bg-slate-700 rounded") }}
+                
+            </form>
+        </div>
+    </div>
+
+
+
+    <div class="my-3">
+        <h2 class="text-2xl border-b-2 border-gray-300 dark:border-slate-600 pb-3">User Profile</h2>
+        <div class="my-8">
+            <form method="POST">
+                {{ profile_form.hidden_tag() }}
+                
+                <div class="grid grid-cols-3 gap-2 mb-4">
+                    <div class="sm:col-span-1 col-span-3 sm:text-slate-100 sm:font-normal font-medium text-slate-500 col-span-1 ">
+                        <h5 class="dark:text-slate-100 text-slate-900">First Name</h5>
+                    </div>
+                    <div class="sm:col-span-1 col-span-3">
+                        {{ profile_form.firstname(class="w-full p-1 dark:bg-slate-700 border dark:border-slate-600 rounded-md focus:outline-none", value=user_data[2])  }}
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mb-4">
+                    <div class="sm:col-span-1 col-span-3 sm:text-slate-100 sm:font-normal font-medium text-slate-500 col-span-1 ">
+                        <h5 class="dark:text-slate-100 text-slate-900">Last Name</h5>
+                    </div>
+                    <div class="sm:col-span-1 col-span-3">
+                        {{ profile_form.lastname(class="w-full p-1 dark:bg-slate-700 border dark:border-slate-600 rounded-md focus:outline-none", value=user_data[3])  }}
+                        {% with message = get_flashed_messages(with_categories=true) %}
+                            {% for category, message in message %}
+                                {% if message and category == "profile" %}
+                                    <p class="mt-3 text-green-500">{{ message }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                    
+                </div>
+                {{ profile_form.submit(class="py-1 px-2 border cursor-pointer ease-in duration-200 bg-gray-100 text-gray-800 hover:bg-gray-200 dark:text-slate-100 dark:bg-slate-800 dark:border-slate-700 dark:hover:text-slate-100 dark:hover:bg-slate-700 rounded") }}
+            </form>
+        </div>
+    </div>
+    <div class="my-3">
+        <h2 class="text-2xl border-b-2 border-gray-300 dark:border-slate-600 pb-3">Change Password</h2>
+        <div class="my-8">
+            <form method="post">
+                {{ password_form.hidden_tag() }}
+                <div class="grid grid-cols-3 gap-2 mb-4">
+                    <div class="sm:col-span-1 col-span-3 sm:text-slate-100 sm:font-normal font-medium text-slate-500 col-span-1 ">
+                        <h5 class="dark:text-slate-100 text-slate-900">Current Password</h5>
+                    </div>
+                    <div class="sm:col-span-1 col-span-3">
+                        {{ password_form.current_password(class="w-full p-1 dark:bg-slate-700 border dark:border-slate-600 rounded-md focus:outline-none", placeholder="Current Password") }}
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mb-4">
+                    <div class="sm:col-span-1 col-span-3 sm:text-slate-100 sm:font-normal font-medium text-slate-500 col-span-1 ">
+                        <h5 class="dark:text-slate-100 text-slate-900">New Password</h5>
+                    </div>
+                    <div class="sm:col-span-1 col-span-3">
+                        {{ password_form.new_password(class="w-full p-1 dark:bg-slate-700 border dark:border-slate-600 rounded-md focus:outline-none", placeholder="New Password") }}
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mb-4">
+                    <div class="sm:col-span-1 col-span-3 sm:text-slate-100 sm:font-normal font-medium text-slate-500 col-span-1 ">
+                        <h5 class="dark:text-slate-100 text-slate-900">Confirm Password</h5>
+                    </div>
+                    <div class="sm:col-span-1 col-span-3">
+                        {{ password_form.confirm_password(class="w-full p-1 dark:bg-slate-700 border dark:border-slate-600 rounded-md focus:outline-none", placeholder="Confirm Password") }}
+                        {% for input_name in password_form.errors %}
+                            {% for error in password_form.errors[input_name] %}
+                                {% if error == "Field must be equal to new_password." %}
+                                    <p class="mt-3 text-red-500">New password must be equal to confirm password.</p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                        {% with message = get_flashed_messages(with_categories=true) %}
+                            {% for category, message in message %}
+                                {% if message and category == "password_form_success" %}
+                                    <p class="mt-3 text-green-500">{{ message }}</p>
+                                {% endif %}
+                                {% if message and category == "password_form_error" %}
+                                    <p class="mt-3 text-red-500">{{ message }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                </div>
+                {{ password_form.submit(class="py-1 px-2 border cursor-pointer ease-in duration-200 bg-gray-100 text-gray-800 hover:bg-gray-200 dark:text-slate-100 dark:bg-slate-800 dark:border-slate-700 dark:hover:text-slate-100 dark:hover:bg-slate-700 rounded") }}
+            </form>
+        </div>
+    </div>
+    {% if user_data[6] == 'admin' %}
+    <div class="my-3 p-2">
+        <h2 class="text-2xl border-b-2 border-gray-300 dark:border-slate-600 pb-3">Site Settings</h2>
+        <div class="my-8">
+            <form action="" method="post">
+                {{ site_config_form.hidden_tag() }}
+                <div class="grid grid-cols-3 gap-2 mb-4">
+                    <div class="sm:col-span-1 col-span-3 sm:text-slate-100 sm:font-normal font-medium col-span-1 ">
+                        <h5 class="dark:text-slate-100 text-slate-900">Site Name</h5>
+                    </div>
+                    <div class="sm:col-span-1 col-span-3">
+                        {{ site_config_form.site_name(class="w-full p-1 dark:bg-slate-700 border dark:border-slate-600 rounded-md focus:outline-none", value=site_config["SITE_NAME"]) }}
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mb-4">
+                    <div class="sm:col-span-1 col-span-3 sm:text-slate-100 sm:font-normal font-medium text-slate-500 col-span-1 ">
+                        <h5 class="dark:text-slate-100 text-slate-900">Allow Registration</h5>
+                    </div>
+                    <div class="sm:col-span-1 col-span-3">
+                        <label class="inline-flex items-center cursor-pointer">
+                            {{ site_config_form.site_allow_registration(class="sr-only peer", checked=site_config["ALLOW_REGISTER"]) }}
+                            <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        </label>
+                        {% with message = get_flashed_messages(with_categories=true) %}
+                            {% for category, message in message %}
+                                {% if message and category == "site_config" %}
+                                    <p class="mt-3 text-green-500">{{ message }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                </div>
+                {{ site_config_form.submit(class="py-1 px-2 border cursor-pointer ease-in duration-200 bg-gray-100 text-gray-800 hover:bg-gray-200 dark:text-slate-100 dark:bg-slate-800 dark:border-slate-700 dark:hover:text-slate-100 dark:hover:bg-slate-700 rounded") }}
+            </form>   
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+
+
+
+{% endblock %}
+{% block javascript %}
+<script>
+    $(document).ready(function(){
+        $("#avatar_upload_input").change(function(){
+            var file = this.files[0];
+            var reader = new FileReader();
+            reader.onload = function(e){
+                $("#profile_image_preview").attr('src', e.target.result);
+            }
+            reader.readAsDataURL(file);
+        });
+    })
+</script>
+{% endblock %}

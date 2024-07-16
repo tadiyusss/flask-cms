@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>{{site_config['SITE_NAME']}} - Login</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+        <script src='https://cdn.tailwindcss.com'></script>
+        <style>
+            *{
+                font-family: 'Inter', sans-serif;
+            }
+        </style>
+    </head>
+    <body class="dark:bg-slate-900 dark:text-slate-100 bg-blue-50">
+        <div class="max-w-lg md:mx-auto md:my-28">
+            <h4 class="text-center text-4xl md:my-5 md:block hidden">{{site_config['SITE_NAME']}}</h4>
+            <form class="dark:bg-slate-800 bg-gray-50 py-9 px-10 border dark:border-slate-700 md:w-auto md:h-auto h-screen w-screen md:rounded border-slate-200" method="POST">
+                <h4 class="text-center text-2xl md:my-5 md:hidden block">Marasigan Water Station</h4>
+                <h5 class="text-2xl m-0 md:mt-0 mt-10">Register</h5>
+                <div class="my-4">
+                    {{ form.hidden_tag() }}
+                    <div class="mt-3">
+                        {{ form.username.label(class="text-gray-500") }}
+                        {{ form.username(class="w-full p-1 dark:bg-slate-700 border dark:border-slate-600 rounded-md focus:outline-none") }}
+                    </div>
+                    <div class="mt-3">
+                        {{ form.password.label(class="text-gray-500") }}
+                        {{ form.password(class="w-full p-1 dark:bg-slate-700 border dark:border-slate-600 rounded-md focus:outline-none") }}
+                    </div>
+                    <div class="mt-3">
+                        {{ form.firstname.label(class="text-gray-500") }}
+                        {{ form.firstname(class="w-full p-1 dark:bg-slate-700 border dark:border-slate-600 rounded-md focus:outline-none") }}
+                    </div>
+                    <div class="mt-3">
+                        {{ form.lastname.label(class="text-gray-500") }}
+                        {{ form.lastname(class="w-full p-1 dark:bg-slate-700 border dark:border-slate-600 rounded-md focus:outline-none") }}
+                    </div>
+                    {% with message = get_flashed_messages(with_categories=true) %}
+                        {% for category, message in message %}
+                            {% if message %}
+                                <p class="mt-3 text-red-500">{{ message['message'] }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endwith %}
+                    
+                    {{ form.submit(class="w-full p-1 dark:bg-blue-800 dark:hover:bg-blue-700 bg-gray-100 dark:border-0 border my-4 rounded cursor-pointer") }}
+                </div>
+                <p class="text-center text-sm text-gray-400">Already have an account? <a href="{{url_for('core.login')}}" class="underline">Login here.</a></p>
+            </form>
+        </div>
+    </body>
+</html>

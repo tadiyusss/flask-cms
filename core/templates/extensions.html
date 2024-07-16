@@ -1,0 +1,109 @@
+{% extends "core_base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+{% if user_data[6] != 'admin' %}
+    <h1 class="text-2xl text-center my-10 text-gray-500">You don't have enough permissions to access this page.</h1>
+{% else %}
+<div class="border p-3 bg-gray-50 dark:border-0 dark:bg-slate-800 shadow rounded">
+    <div class="mb-8">
+        <h2 class="text-2xl border-b-2 border-gray-300 dark:border-slate-600 pb-3">Add Extensions</h2>
+        <form action="" method="post" class="items-center my-3" enctype="multipart/form-data">
+            {{ extension_upload_form.csrf_token }}
+            {{ extension_upload_form.extension }}
+            {{ extension_upload_form.submit(class="py-1 px-2 border cursor-pointer ease-in duration-200 bg-gray-100 text-gray-800 hover:bg-gray-200 dark:text-slate-100 dark:bg-slate-800 dark:border-slate-700 dark:hover:text-slate-100 dark:hover:bg-slate-700 rounded") }}
+            {% with message = get_flashed_messages(with_categories=true) %}
+                {% for category, message in message %}
+                    {% if category == 'error' %}
+                        <p class="text-red-500">{{ message }}</p>
+                    {% elif category == 'success' %}
+                        <p class="text-green-500">{{ message }}</p>
+                    {% endif %}
+                {% endfor %}
+            {% endwith %}
+        </form>
+    </div>
+
+
+    {% if extensions_list|length > 0 %}
+    <div class="my-8">
+        <h2 class="text-2xl border-b-2 border-gray-300 dark:border-slate-600 pb-3">Installed Extensions</h2>
+        <div class="relative overflow-x-auto my-8 ">
+            <form method="post">
+                <table class="w-full text-sm text-left rtl:text-right">
+                    <thead class="text-xs border-b-2 bg-gray-100 rounded dark:text-slate-400 dark:bg-slate-800 dark:border-slate-700">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                <input type="checkbox" name="" id="allRows">
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Name
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Description
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Version
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Enabled
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for extension in extensions_list %}
+                            <tr class="dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700 dark:hover:bg-slate-700 hover:bg-gray-100 ease-in duration-200 border-b-2">
+                                <td class="px-6 py-4">
+                                    {{ extension_checkboxes[extension[0]] }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ extension[2] }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ extension[4] }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ extension[3] }}
+                                </td>
+                                {% if extension[1] == 1 %}
+                                <td class="px-6 py-4">
+                                    Yes
+                                </td>
+                                {% else %}
+                                <td class="px-6 py-4">
+                                    No
+                                </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {{ extension_checkboxes['action_field'](class="py-1 px-2 border cursor-pointer ease-in duration-200 bg-gray-100 text-gray-800 dark:text-slate-100 dark:bg-slate-800 dark:border-slate-700 dark:hover:text-slate-100 dark:hover:bg-slate-700 rounded") }}
+            {{ extension_checkboxes['submit'](class="mx-3 py-1 px-2 border cursor-pointer ease-in duration-200 bg-gray-100 text-gray-800 hover:bg-gray-200 dark:text-slate-100 dark:bg-slate-800 dark:border-slate-700 dark:hover:text-slate-100 dark:hover:bg-slate-700 rounded") }}
+
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+
+
+
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+    // using jquery select all checkboxes when the header checkbox is checked
+    $('#allRows').click(function() {
+        if ($(this).is(':checked')) {
+            $('input[type="checkbox"]').prop('checked', true);
+        } else {
+            $('input[type="checkbox"]').prop('checked', false);
+        }
+    });
+</script>
+{% endblock %}
