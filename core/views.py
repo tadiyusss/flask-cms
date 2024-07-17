@@ -89,7 +89,7 @@ def settings():
     return render_template('settings.html',  site_config = site_config.get_site_config(), site_config_form = site_config_form, avatar_form = avatar_form, password_form = password_form, profile_form = profile_form,user_data=user_handler.get_by_login_id(session.get('login_id'), safe=True), extension_tabs = extension_handler.get_tabs())
 
 @core.route('/dashboard/extensions', methods=['GET', 'POST'])
-@user_handler.login_required('dashboard.login')
+@user_handler.login_required('core.login')
 def extensions():
     extension_upload_form = ExtensionUploadForm()
     prefs = ExtensionsCRUD(extension_handler.get_blueprints())
